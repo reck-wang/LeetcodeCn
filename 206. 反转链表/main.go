@@ -5,7 +5,7 @@ type ListNode struct {
 	Next *ListNode
 }
 
-// recursion
+// 方法一: 递归
 //func reverseList(head *ListNode) *ListNode {
 //	if head == nil || head.Next == nil {
 //		return head
@@ -18,7 +18,7 @@ type ListNode struct {
 //	return newHead
 //}
 
-// iteration
+// 方法二: 迭代
 func reverseList(head *ListNode) *ListNode {
 	if head == nil {
 		return head
