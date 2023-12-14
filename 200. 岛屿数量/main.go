@@ -21,7 +21,6 @@ func NewUnionFind(grid [][]byte) *UnionFind {
 				u.Parent[i*n+j] = i*n + j
 				u.Count++
 			}
-			u.Rank = append(u.Rank, 0)
 		}
 	}
 
