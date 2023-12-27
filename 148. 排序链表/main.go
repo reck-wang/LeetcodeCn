@@ -57,5 +57,71 @@ type ListNode struct {
 
 // 方法二 自底向上归并
 func sortList(head *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
 
+	var length int
+	for cur := head; cur != nil; cur = cur.Next {
+		length++
+	}
+
+	dummyHead := &ListNode{Next: head}
+	for subLength := 1; subLength < length; subLength <<= 1 {
+		pre, cur := dummyHead, dummyHead.Next
+		for cur != nil {
+			head1 := cur
+			for i := 1; i < subLength && cur.Next != nil; i++ {
+				cur = cur.Next
+			}
+
+			head2 := cur.Next
+			cur.Next = nil
+			cur = head2
+			if cur != nil {
+				for i := 1; i < subLength && cur.Next != nil; i++ {
+					cur = cur.Next
+				}
+			}
+
+			var next *ListNode
+			if cur != nil {
+				next = cur.Next
+				cur.Next = nil
+			}
+
+			pre.Next = merge(head1, head2)
+			for pre.Next != nil {
+				pre = pre.Next
+			}
+
+			cur = next
+		}
+	}
+
+	return dummyHead.Next
+}
+
+func merge(first, second *ListNode) *ListNode {
+	dummy := &ListNode{}
+	pre, temp1, temp2 := dummy, first, second
+
+	for temp1 != nil && temp2 != nil {
+		if temp1.Val <= temp2.Val {
+			pre.Next = temp1
+			temp1 = temp1.Next
+		} else {
+			pre.Next = temp2
+			temp2 = temp2.Next
+		}
+		pre = pre.Next
+	}
+
+	if temp1 != nil {
+		pre.Next = temp1
+	} else {
+		pre.Next = temp2
+	}
+
+	return dummy.Next
 }
